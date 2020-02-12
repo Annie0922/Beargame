@@ -86,7 +86,7 @@ class ViewController: UIViewController {
             }
         }
     }
-    //翻牌
+    //翻牌動作
     @IBAction func flipBear(_ sender: UIButton) {
         
         func flipBearIndex(index: Int) -> Void {
@@ -95,7 +95,6 @@ class ViewController: UIViewController {
                 UIView.transition(with: bearButtons[index], duration: 0.5, options: .transitionFlipFromRight, animations: nil, completion: nil)
                 bears[index].isFlipped = false
             } else {
-                //翻牌
                 bearButtons[index].setImage(bears[index].image, for: .normal)
                 UIView.transition(with: bearButtons[index], duration: 0.5, options: .transitionFlipFromLeft, animations: nil, completion: nil)
                 bears[index].isFlipped = true
@@ -130,11 +129,13 @@ class ViewController: UIViewController {
                             self.pairsFound += 1
                             if self.pairsFound == 8 {
                                 self.time?.invalidate()
+                                //在時間內完成，會跳出視窗訊息視窗，按下ok會直接重新開始
                                 let controller = UIAlertController(title: "挑戰成功", message: "再來一場！！", preferredStyle: .alert)
                                 let okAction = UIAlertAction(title: "OK", style: .default) { _ in
                                     self.restartAction()
                                 }
                                 controller.addAction(okAction)
+                                //在時間內結束時間也會跟著暫停
                                 self.present(controller, animated: true, completion: nil)
                                 print("game end")
                                 
@@ -154,7 +155,7 @@ class ViewController: UIViewController {
         }
     }
     
-   //超過時間
+   //未在時間內完成遊戲，而會跳出警告訊息，按下ok則會重新開始
     @objc func UpdateTimer() {
         seconds = seconds - 1
         if seconds == 0{
@@ -171,7 +172,7 @@ class ViewController: UIViewController {
         timeLabel.text = String(seconds)
     }
     
-    //重新開始
+    //重新開始的動作
     @IBAction func restart(_ sender: Any) {
         restartAction()
     }
